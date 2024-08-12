@@ -1,5 +1,5 @@
 # Use the official OpenJDK image to build the application
-FROM openjdk:17-jdk-slim AS build
+FROM openjdk:17-jdk-alpine AS build
 
 # Set the working directory
 WORKDIR /app
@@ -11,7 +11,7 @@ COPY HelloDocker.java /app/HelloDocker.java
 RUN javac HelloDocker.java
 
 # Use a smaller base image to run the compiled application
-FROM openjdk:17-jre-slim
+FROM openjdk:17-alpine
 
 # Set the working directory
 WORKDIR /app
