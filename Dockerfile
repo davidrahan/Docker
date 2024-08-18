@@ -1,24 +1,19 @@
-# Stage 1: Build the Python application
-FROM python:3.11-slim AS builder
+# Use the official OpenJDK image to build the application
+FROM openjdk:17-jdk-alpine AS build
 
-# Set working directory
+# Set the working directory
 WORKDIR /app
 
-# Copy the Python script into the container
-COPY calculator.py .
+# Copy the Java source file into the container
+COPY HelloDocker.java /app/HelloDocker.java
 
-# Install any dependencies (if needed) and prepare the application
-# RUN pip install --no-cache-dir -r requirements.txt  # Uncomment if you have dependencies
+# Compile the Java program
+RUN javac HelloDocker.java
 
-# Stage 2: Create the final image
-FROM python:3.11-slim
+# Use a smaller base image to run the compiled application
+FROM openjdk:17-alpine
 
-# Set working directory
+# Set the working directory
 WORKDIR /app
 
-# Copy the Python script from the builder stage
-COPY --from=builder /app/calculator.py .
-
-# Set the entry point for the container
-ENTRYPOINT ["python", "calculator.py"]
-
+# Copy the compiled
